@@ -3,6 +3,8 @@ package com.goeckeler.ulmer.object;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -10,12 +12,14 @@ import javafx.beans.property.StringProperty;
 public class Person {
   private StringProperty name;
   private StringProperty mail;
+  private ObjectProperty<Gender> gender;
 
   public Person(String name, Gender gender, String mail, LocalDate birthday) {
     Objects.requireNonNull(name);
 
     setName(name);
     setMail(mail);
+    setGender(gender);
   }
 
   public void setName(String name) {
@@ -48,6 +52,21 @@ public class Person {
       mail = new SimpleStringProperty(this, "mail");
     }
     return mail;
+  }
+
+  public void setGender(Gender gender) {
+    this.genderProperty().set(gender);
+  }
+
+  public Gender getGender() {
+    return this.genderProperty().get();
+  }
+
+  public ObjectProperty<Gender> genderProperty() {
+    if (gender == null) {
+      gender = new SimpleObjectProperty<Gender>(this, "gender");
+    }
+    return gender;
   }
 
   public int age() {
