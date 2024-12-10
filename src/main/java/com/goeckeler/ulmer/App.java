@@ -40,7 +40,7 @@ public class App extends Application {
     Person demo = new Person("No one", null, "no.one@null.de", null);
     column(tableView, "Name", demo.nameProperty().getName());
     column(tableView, "Gender", demo.genderProperty().getName());
-    // column(tableView, "Birthday", "birthday");
+    column(tableView, "Birthday", demo.birthdayProperty().getName());
     column(tableView, "Mail", demo.mailProperty().getName());
 
     VBox vbox = new VBox(tableView);

@@ -13,6 +13,7 @@ public class Person {
   private StringProperty name;
   private StringProperty mail;
   private ObjectProperty<Gender> gender;
+  private ObjectProperty<LocalDate> birthday;
 
   public Person(String name, Gender gender, String mail, LocalDate birthday) {
     Objects.requireNonNull(name);
@@ -20,6 +21,7 @@ public class Person {
     setName(name);
     setMail(mail);
     setGender(gender);
+    setBirthday(birthday);
   }
 
   public void setName(String name) {
@@ -67,6 +69,21 @@ public class Person {
       gender = new SimpleObjectProperty<Gender>(this, "gender");
     }
     return gender;
+  }
+
+  public void setBirthday(LocalDate birthday) {
+    this.birthdayProperty().set(birthday);
+  }
+
+  public LocalDate getBirthday() {
+    return this.birthdayProperty().get();
+  }
+
+  public ObjectProperty<LocalDate> birthdayProperty() {
+    if (birthday == null) {
+      birthday = new SimpleObjectProperty<LocalDate>(this, "birthday");
+    }
+    return birthday;
   }
 
   public int age() {
