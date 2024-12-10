@@ -26,10 +26,11 @@ public class Person {
     return this.nameProperty().get();
   }
 
+  @SuppressWarnings("exports")
   public StringProperty nameProperty() {
-    if (name == null){
-    name = new SimpleStringProperty(this, "name");
-  }
+    if (name == null) {
+      name = new SimpleStringProperty(this, "name");
+    }
     return name;
   }
 
@@ -41,10 +42,11 @@ public class Person {
     return this.mailProperty().get();
   }
 
+  @SuppressWarnings("exports")
   public StringProperty mailProperty() {
-    if (mail == null){
-    mail = new SimpleStringProperty(this, "mail");
-  }
+    if (mail == null) {
+      mail = new SimpleStringProperty(this, "mail");
+    }
     return mail;
   }
 
