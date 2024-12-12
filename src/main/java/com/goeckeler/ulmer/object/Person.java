@@ -1,92 +1,86 @@
 package com.goeckeler.ulmer.object;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
-
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 /** Simple person attributes */
 public class Person {
-  private StringProperty name;
-  private StringProperty mail;
-  private ObjectProperty<Gender> gender;
-  private ObjectProperty<LocalDate> birthday;
+  private String name;
+  private String mail;
+  private Gender gender;
+  private LocalDate birthday;
 
   public Person(String name, Gender gender, String mail, LocalDate birthday) {
     Objects.requireNonNull(name);
 
-    setName(name);
-    setMail(mail);
-    setGender(gender);
-    setBirthday(birthday);
-  }
-
-  public void setName(String name) {
-    this.nameProperty().set(name);
+    this.name = name;
+    this.gender = gender;
+    this.mail = mail;
+    this.birthday = birthday;
   }
 
   public String getName() {
-    return this.nameProperty().get();
-  }
-
-  @SuppressWarnings("exports")
-  public StringProperty nameProperty() {
-    if (name == null) {
-      name = new SimpleStringProperty(this, "name");
-    }
     return name;
   }
 
-  public void setMail(String mail) {
-    this.mailProperty().set(mail);
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getMail() {
-    return this.mailProperty().get();
-  }
-
-  @SuppressWarnings("exports")
-  public StringProperty mailProperty() {
-    if (mail == null) {
-      mail = new SimpleStringProperty(this, "mail");
-    }
     return mail;
   }
 
-  public void setGender(Gender gender) {
-    this.genderProperty().set(gender);
+  public void setMail(String mail) {
+    this.mail = mail;
   }
 
   public Gender getGender() {
-    return this.genderProperty().get();
-  }
-
-  public ObjectProperty<Gender> genderProperty() {
-    if (gender == null) {
-      gender = new SimpleObjectProperty<Gender>(this, "gender");
-    }
     return gender;
   }
 
-  public void setBirthday(LocalDate birthday) {
-    this.birthdayProperty().set(birthday);
+  public void setGender(Gender gender) {
+    this.gender = gender;
   }
 
   public LocalDate getBirthday() {
-    return this.birthdayProperty().get();
-  }
-
-  public ObjectProperty<LocalDate> birthdayProperty() {
-    if (birthday == null) {
-      birthday = new SimpleObjectProperty<LocalDate>(this, "birthday");
-    }
     return birthday;
   }
 
-  public int age() {
-    return 0;
+  public void setBirthday(LocalDate birthday) {
+    this.birthday = birthday;
+  }
+
+  public long age() {
+    return birthday.until(LocalDate.now(), ChronoUnit.YEARS);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Person other = (Person) obj;
+    return Objects.equals(birthday, other.birthday)
+        && gender == other.gender
+        && Objects.equals(mail, other.mail)
+        && Objects.equals(name, other.name);
+  }
+
+  @Override
+  public String toString() {
+    return name == null ? "N.N." : name;
   }
 }

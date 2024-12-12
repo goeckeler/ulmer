@@ -1,10 +1,7 @@
 package com.goeckeler.ulmer;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.List;
+import static com.goeckeler.ulmer.PersonRepository.personRepository;
 
-import com.goeckeler.ulmer.object.Gender;
 import com.goeckeler.ulmer.object.Person;
 
 import javafx.application.Application;
@@ -24,7 +21,7 @@ import javafx.stage.Stage;
 public class App extends Application {
 
   @Override
-  public void start(final Stage stage) {
+  public void start(@SuppressWarnings("exports") final Stage stage) {
     var javaVersion = SystemInfo.javaVersion();
     var javafxVersion = SystemInfo.javafxVersion();
 
@@ -37,17 +34,17 @@ public class App extends Application {
     TableView<Person> tableView = new TableView<>(createDefaultPersons());
     tableView.setPlaceholder(new Label("No rows to display."));
 
-    Person demo = new Person("No one", null, "no.one@null.de", null);
-    column(tableView, "Name", demo.nameProperty().getName());
-    column(tableView, "Gender", demo.genderProperty().getName());
-    column(tableView, "Birthday", demo.birthdayProperty().getName());
-    column(tableView, "Mail", demo.mailProperty().getName());
+    column(tableView, "Name", "name");
+    column(tableView, "Gender", "gender");
+    column(tableView, "Birthday", "birthday");
+    column(tableView, "Mail", "mail");
 
     VBox vbox = new VBox(tableView);
     pane.setCenter(vbox);
 
     var scene = new Scene(pane);
     stage.setScene(scene);
+    stage.setTitle("Address Book");
     stage.show();
   }
 
@@ -58,16 +55,7 @@ public class App extends Application {
   }
 
   private ObservableList<Person> createDefaultPersons() {
-    List<Person> persons =
-        List.of(
-            new Person(
-                "John Doe", Gender.MALE, "john.doe@mail.com", LocalDate.of(1973, Month.MAY, 12)),
-            new Person(
-                "Jane Deer",
-                Gender.FEMALE,
-                "jane.deer@mail.com",
-                LocalDate.of(2003, Month.OCTOBER, 2)));
-    return FXCollections.observableArrayList(persons);
+    return FXCollections.observableArrayList(personRepository().findAll());
   }
 
   public static void main(String[] args) {
